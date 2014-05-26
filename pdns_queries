@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Script to monitor PowerDNS performance
 #
@@ -9,15 +9,15 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-pdns_control=$(type -P pdns_control)
-command="${pdns_control} show"
+readonly PDNS_CONTROL=$(type -P pdns_control)
+readonly COMMAND="${PDNS_CONTROL} show"
 
-if [ "$1" = "autoconf" ]; then
-        echo yes
-        exit 0
+if [[ "$1" == "autoconf" ]]; then
+	echo "yes"
+	exit 0
 fi
 
-if [ "$1" = "config" ]; then
+if [[ "$1" == "config" ]]; then
         echo 'graph_title Power DNS queries'
         echo 'graph_args -l 0 --base 1000'
         echo 'graph_vlabel numbers of'
@@ -50,9 +50,9 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-echo "recursing_answers.value $($command recursing-answers)"
-echo "recursing_questions.value $($command recursing-questions)"
-echo "tcp_answers.value $($command tcp-answers)"
-echo "tcp_queries.value $($command tcp-queries)"
-echo "udp_answers.value $($command udp-answers)"
-echo "udp_queries.value $($command udp-queries)"
+echo "recursing_answers.value $(${COMMAND} recursing-answers)"
+echo "recursing_questions.value $(${COMMAND} recursing-questions)"
+echo "tcp_answers.value $(${COMMAND} tcp-answers)"
+echo "tcp_queries.value $(${COMMAND} tcp-queries)"
+echo "udp_answers.value $(${COMMAND} udp-answers)"
+echo "udp_queries.value $(${COMMAND} udp-queries)"

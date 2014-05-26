@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Script to monitor PowerDNS performance
 #
@@ -9,15 +9,15 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-pdns_control=$(type -P pdns_control)
-command="${pdns_control} show"
+readonly PDNS_CONTROL=$(type -P pdns_control)
+readonly COMMAND="${PDNS_CONTROL} show"
 
-if [ "$1" = "autoconf" ]; then
-        echo yes
+if [[ "$1" == "autoconf" ]]; then
+        echo "yes"
         exit 0
 fi
 
-if [ "$1" = "config" ]; then
+if [[ "$1" == "config" ]]; then
         echo 'graph_title Power DNS errors'
         echo 'graph_args -l 0 --base 1000'
         echo 'graph_vlabel numbers of'
@@ -38,6 +38,6 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-echo "corrupt_packets.value $($command corrupt-packets)"
-echo "servfail_packets.value $($command servfail-packets)"
-echo "timedout_packets.value $($command timedout-packets)"
+echo "corrupt_packets.value $($COMMAND corrupt-packets)"
+echo "servfail_packets.value $($COMMAND servfail-packets)"
+echo "timedout_packets.value $($COMMAND timedout-packets)"

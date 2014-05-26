@@ -9,7 +9,8 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-command="/etc/init.d/pdns dump"
+pdns_control=$(type -P pdns_control)
+command="${pdns_control} show"
 
 if [ "$1" = "autoconf" ]; then
         echo yes
@@ -49,5 +50,9 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-
-$command | sed 's/=\([0-9]\+\),/.value \1\n/g' | grep udp-'\|'recursing'\|'tcp | sed 's/-/_/g'
+echo "recursing_answers.value $($command recursing-answers)"
+echo "recursing_questions.value $($command recursing-questions)"
+echo "tcp_answers.value $($command tcp-answers)"
+echo "tcp_queries.value $($command tcp-queries)"
+echo "udp_answers.value $($command udp-answers)"
+echo "udp_queries.value $($command udp-queries)"

@@ -9,7 +9,8 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-command="/etc/init.d/pdns show"
+pdns_control=$(type -P pdns_control)
+command="${pdns_control} show"
 state_file=/var/lib/munin/plugin-state/pdns_rel.state
 
 if [ "$1" = "autoconf" ]; then
@@ -31,8 +32,8 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-hits=$($command packetcache-hit | awk -F= '{print $2}')
-queries=$($command udp-queries | awk -F= '{print $2}')
+hits=$($command packetcache-hit)
+queries=$($command udp-queries)
 old_hits=$(cat $state_file | head -n1)
 old_queries=$(cat $state_file | tail -n1)
 

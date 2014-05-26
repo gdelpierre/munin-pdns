@@ -1,4 +1,6 @@
-These PowerDNS plugins for Munin were written by Jan Behrend and
-downloaded from http://muninexchange.projects.linpro.no
-
-I'm adding them to git for my own use in avar/linode-etc.
+These following PowerDNS plugins for Munin were originally written by Jan Behrend:
+  - pdns_latency
+  - pdns_queries
+  - pdns_rel
+  - pdns_errors
+  - pdns_qsize

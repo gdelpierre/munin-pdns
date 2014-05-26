@@ -13,7 +13,7 @@ readonly PDNS_CONTROL=$(type -P pdns_control)
 readonly COMMAND="${PDNS_CONTROL} show"
 
 if [[ "$1" == "autoconf" ]]; then
-        echo yes
+        echo "yes"
         exit 0
 fi
 

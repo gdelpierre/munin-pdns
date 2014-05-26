@@ -9,7 +9,8 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-command="/etc/init.d/pdns show"
+pdns_control=$(type -P pdns_control)
+command="${pdns_control} show"
 
 if [ "$1" = "autoconf" ]; then
         echo yes
@@ -28,7 +29,4 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-
-
-
-echo "latency.value $($command latency | awk -F= '{print $2}')"
+echo "latency.value $($command latency)"

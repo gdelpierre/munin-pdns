@@ -9,7 +9,8 @@
 #%# family=auto
 #%# capabilities=autoconf
 
-command="/etc/init.d/pdns dump"
+pdns_control=$(type -P pdns_control)
+command="${pdns_control} show"
 
 if [ "$1" = "autoconf" ]; then
         echo yes
@@ -37,5 +38,6 @@ if [ "$1" = "config" ]; then
         exit 0
 fi
 
-
-$command | sed 's/=\([0-9]\+\),/.value \1\n/g' | grep corrupt'\|'servfail'\|'timedout | sed 's/-/_/g'
+echo "corrupt_packets.value $($command corrupt-packets)"
+echo "servfail_packets.value $($command servfail-packets)"
+echo "timedout_packets.value $($command timedout-packets)"

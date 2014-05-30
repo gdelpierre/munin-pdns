@@ -10,8 +10,7 @@
 #%# capabilities=autoconf
 
 readonly PDNS_CONTROL=$(type -P pdns_control)
-readonly TAIL=$(type -P tail)
-readonly HEAD=$(type -P head)
+readonly SED=$(type -P sed)
 readonly AWK=$(type -P awk)
 
 readonly COMMAND="${PDNS_CONTROL} show"
@@ -38,13 +37,13 @@ fi
 
 HITS=$(${COMMAND} packetcache-hit)
 QUERIES=$(${COMMAND} udp-queries)
-OLD_HITS=$(${HEAD} -n1 "${STATE_FILE}")
-OLD_QUERIES=$(${TAIL} -n1 "${STATE_FILE}")
+OLD_HITS=$(${SED} -n '1p' "${STATE_FILE}")
+OLD_QUERIES=$(${SED} -n '2p' "${STATE_FILE}")
 
 if [ -f "$STATE_FILE" ] &&
    [ $(ls -l --time-style=+%s "$STATE_FILE" | ${AWK} '{print $6}') -gt $(date --date="7 minutes ago" +%s) ] ; then
-	local d_hits=$(("$HITS" - "$OLD_HITS"))
-	local d_queries=$(("$QUERIES" - "$OLD_QUERIES"))
+	d_hits=$((${HITS} - ${OLD_HITS}))
+	d_queries=$((${QUERIES} - ${OLD_QUERIES}))
 	if [ $d_queries -gt 0 ] ; then
 	   echo "packetcache_hitrate.value $(( $d_hits * 100 / $d_queries ))"
 	fi
